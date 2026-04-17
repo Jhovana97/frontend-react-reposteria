@@ -24,36 +24,36 @@ export default function AppRouter() {
                 <Route
                     path="/dashboard"
                     element={
-                        <PrivateRoute>
+                        // <PrivateRoute>
                             <Dashboard />
-                        </PrivateRoute>
+                        // </PrivateRoute>
                     }
                 />
 
                 <Route
                     path="/productos"
                     element={
-                        <PrivateRoute>
+                        // <PrivateRoute>
                             <Productos />
-                        </PrivateRoute>
+                        //</PrivateRoute>
                     }
                 />
 
                 <Route
                     path="/pedidos"
                     element={
-                        <PrivateRoute>
+                        //<PrivateRoute>
                             <Pedidos />
-                        </PrivateRoute>
+                        //</PrivateRoute>
                     }
                 />
 
                 <Route
                     path="/clientes"
                     element={
-                        <PrivateRoute>
+                        // <PrivateRoute>
                             <Clientes />
-                        </PrivateRoute>
+                        //</PrivateRoute>
                     }
                 />
             </Routes>
