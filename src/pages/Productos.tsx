@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import { getCategorias } from "../api/categorias.api";
-import {getProductos,createProducto,updateProducto,deleteProducto,} from "../api/productos.api";
+import { getProductos, createProducto, updateProducto, deleteProducto, } from "../api/productos.api";
 import { useForm } from "react-hook-form";
 
 type ProductoForm = {
@@ -133,20 +133,22 @@ function Productos() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 {productos.map((p: any) => (
                     <div key={p.id} className="group bg-white rounded-[2rem] overflow-hidden shadow-lg shadow-amber-100/50 border border-amber-50 hover:-translate-y-2 transition-all duration-300">
-                        
+
                         {/* Contenedor de Imagen */}
-                        <div className="relative h-56 overflow-hidden">
-                            <img
-                                src="https://via.placeholder.com/400x300?text=Producto"
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                alt={p.nombre}
-                            />
-                            {/* Overlay de gradiente para legibilidad */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                            
+                        <div className="relative h-56 overflow-hidden bg-gradient-to-br from-amber-100 via-orange-100 to-pink-100 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+
+                            <span className="text-6xl">
+                                {p.tipo === "torta" && "🎂"}
+                                {p.tipo === "pan" && "🥖"}
+                                {p.tipo === "postre" && "🍰"}
+                                {!p.tipo && "🧁"}
+                            </span>
+
+                            {/* categoría */}
                             <span className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-amber-800 text-[10px] font-black uppercase px-3 py-1 rounded-full shadow-sm">
                                 {p.categoria?.nombre}
                             </span>
+
                         </div>
 
                         {/* Contenido */}
@@ -154,7 +156,7 @@ function Productos() {
                             <h2 className="text-xl font-bold text-slate-800 mb-2 capitalize leading-tight">
                                 {p.nombre}
                             </h2>
-                            
+
                             <div className="flex justify-between items-center mt-4">
                                 <div className="flex flex-col">
                                     <span className="text-[10px] text-slate-400 uppercase font-bold tracking-tighter">Precio</span>
@@ -162,50 +164,50 @@ function Productos() {
                                         Bs. {Number(p.precio).toFixed(2)}
                                     </span>
                                 </div>
-                                
+
                                 <div className="flex gap-2">
 
-                                <button
-                                    onClick={() => {
-                                        setProductoSeleccionado(p);
+                                    <button
+                                        onClick={() => {
+                                            setProductoSeleccionado(p);
 
-                                        resetEdit({
-                                            nombre: p.nombre,
-                                            descripcion: p.descripcion,
-                                            precio: p.precio,
-                                            estado: p.estado,
-                                            tipo: p.tipo,
-                                            categoriaId: p.categoria?.id,
-                                        });
+                                            resetEdit({
+                                                nombre: p.nombre,
+                                                descripcion: p.descripcion,
+                                                precio: p.precio,
+                                                estado: p.estado,
+                                                tipo: p.tipo,
+                                                categoriaId: p.categoria?.id,
+                                            });
 
-                                        setMostrarEditar(true);
-                                    }}
-                                    className="h-10 w-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white"
-                                >
-                                    editar
-                                </button>
+                                            setMostrarEditar(true);
+                                        }}
+                                        className="h-10 w-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white"
+                                    >
+                                        editar
+                                    </button>
 
-                                <button
-                                    onClick={async () => {
-                                        const ok = confirm(
-                                            `¿Eliminar ${p.nombre}?`
-                                        );
+                                    <button
+                                        onClick={async () => {
+                                            const ok = confirm(
+                                                `¿Eliminar ${p.nombre}?`
+                                            );
 
-                                        if (!ok) return;
+                                            if (!ok) return;
 
-                                        await deleteProducto(p.id);
+                                            await deleteProducto(p.id);
 
-                                        const productosRes =
-                                            await getProductos();
+                                            const productosRes =
+                                                await getProductos();
 
-                                        setProductos(productosRes.data);
-                                    }}
-                                    className="h-10 w-10 bg-red-50 text-red-600 rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white"
-                                >
-                                    🗑️
-                                </button>
+                                            setProductos(productosRes.data);
+                                        }}
+                                        className="h-10 w-10 bg-red-50 text-red-600 rounded-full flex items-center justify-center hover:bg-red-600 hover:text-white"
+                                    >
+                                        🗑️
+                                    </button>
 
-                            </div>
+                                </div>
                             </div>
                         </div>
 
@@ -220,164 +222,164 @@ function Productos() {
             </div>
 
             {mostrarCrear && (
-    <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-        <div className="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl">
+                <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+                    <div className="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl">
 
-            <h2 className="text-2xl font-bold text-amber-700 mb-4">
-                Nuevo Producto
-            </h2>
+                        <h2 className="text-2xl font-bold text-amber-700 mb-4">
+                            Nuevo Producto
+                        </h2>
 
-            <form
-                onSubmit={handleSubmit(onSubmit)}
-                className="space-y-4"
-            >
-                <input
-                    placeholder="Nombre"
-                    className="w-full border p-3 rounded-xl"
-                    {...register("nombre")}
-                />
-
-                <textarea
-                    placeholder="Descripción"
-                    className="w-full border p-3 rounded-xl"
-                    {...register("descripcion")}
-                />
-
-                <input
-                    type="number"
-                    step="0.01"
-                    placeholder="Precio"
-                    className="w-full border p-3 rounded-xl"
-                    {...register("precio")}
-                />
-
-                <select
-                    className="w-full border p-3 rounded-xl"
-                    {...register("categoriaId")}
-                >
-                    <option value="">
-                        Seleccione categoría
-                    </option>
-
-                    {categorias.map((cat: any) => (
-                        <option
-                            key={cat.id}
-                            value={cat.id}
+                        <form
+                            onSubmit={handleSubmit(onSubmit)}
+                            className="space-y-4"
                         >
-                            {cat.nombre}
-                        </option>
-                    ))}
-                </select>
+                            <input
+                                placeholder="Nombre"
+                                className="w-full border p-3 rounded-xl"
+                                {...register("nombre")}
+                            />
 
-                <input
-                    placeholder="Estado"
-                    defaultValue="activo"
-                    className="w-full border p-3 rounded-xl"
-                    {...register("estado")}
-                />
+                            <textarea
+                                placeholder="Descripción"
+                                className="w-full border p-3 rounded-xl"
+                                {...register("descripcion")}
+                            />
 
-                <input
-                    placeholder="Tipo"
-                    className="w-full border p-3 rounded-xl"
-                    {...register("tipo")}
-                />
+                            <input
+                                type="number"
+                                step="0.01"
+                                placeholder="Precio"
+                                className="w-full border p-3 rounded-xl"
+                                {...register("precio")}
+                            />
 
-                <div className="flex gap-3">
-                    <button
-                        type="submit"
-                        className="flex-1 bg-amber-600 text-white py-3 rounded-xl"
-                    >
-                        Guardar
-                    </button>
+                            <select
+                                className="w-full border p-3 rounded-xl"
+                                {...register("categoriaId")}
+                            >
+                                <option value="">
+                                    Seleccione categoría
+                                </option>
 
-                    <button
-                        type="button"
-                        onClick={() => setMostrarCrear(false)}
-                        className="flex-1 bg-gray-200 py-3 rounded-xl"
-                    >
-                        Cancelar
-                    </button>
+                                {categorias.map((cat: any) => (
+                                    <option
+                                        key={cat.id}
+                                        value={cat.id}
+                                    >
+                                        {cat.nombre}
+                                    </option>
+                                ))}
+                            </select>
+
+                            <input
+                                placeholder="Estado"
+                                defaultValue="activo"
+                                className="w-full border p-3 rounded-xl"
+                                {...register("estado")}
+                            />
+
+                            <input
+                                placeholder="Tipo"
+                                className="w-full border p-3 rounded-xl"
+                                {...register("tipo")}
+                            />
+
+                            <div className="flex gap-3">
+                                <button
+                                    type="submit"
+                                    className="flex-1 bg-amber-600 text-white py-3 rounded-xl"
+                                >
+                                    Guardar
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={() => setMostrarCrear(false)}
+                                    className="flex-1 bg-gray-200 py-3 rounded-xl"
+                                >
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
-            </form>
+            )}
 
-        </div>
-    </div>
-)}
+            {mostrarEditar && productoSeleccionado && (
+                <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+                    <div className="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl">
 
-    {mostrarEditar && productoSeleccionado && (
-    <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
-        <div className="bg-white rounded-3xl p-6 w-[90%] max-w-md shadow-xl">
+                        <h2 className="text-2xl font-bold text-blue-700 mb-4">
+                            Editar Producto
+                        </h2>
 
-            <h2 className="text-2xl font-bold text-blue-700 mb-4">
-                Editar Producto
-            </h2>
-
-            <form
-                onSubmit={handleSubmitEdit(onEdit)}
-                className="space-y-4"
-            >
-                <input
-                    className="w-full border p-3 rounded-xl"
-                    {...registerEdit("nombre")}
-                />
-
-                <textarea
-                    className="w-full border p-3 rounded-xl"
-                    {...registerEdit("descripcion")}
-                />
-
-                <input
-                    className="w-full border p-3 rounded-xl"
-                    {...registerEdit("precio")}
-                />
-
-                <select
-                    className="w-full border p-3 rounded-xl"
-                    {...registerEdit("categoriaId")}
-                >
-                    {categorias.map((cat: any) => (
-                        <option
-                            key={cat.id}
-                            value={cat.id}
+                        <form
+                            onSubmit={handleSubmitEdit(onEdit)}
+                            className="space-y-4"
                         >
-                            {cat.nombre}
-                        </option>
-                    ))}
-                </select>
+                            <input
+                                className="w-full border p-3 rounded-xl"
+                                {...registerEdit("nombre")}
+                            />
 
-                <input
-                    className="w-full border p-3 rounded-xl"
-                    {...registerEdit("estado")}
-                />
+                            <textarea
+                                className="w-full border p-3 rounded-xl"
+                                {...registerEdit("descripcion")}
+                            />
 
-                <input
-                    className="w-full border p-3 rounded-xl"
-                    {...registerEdit("tipo")}
-                />
+                            <input
+                                className="w-full border p-3 rounded-xl"
+                                {...registerEdit("precio")}
+                            />
 
-                <div className="flex gap-3">
-                    <button
-                        type="submit"
-                        className="flex-1 bg-blue-600 text-white py-3 rounded-xl"
-                    >
-                        Guardar
-                    </button>
+                            <select
+                                className="w-full border p-3 rounded-xl"
+                                {...registerEdit("categoriaId")}
+                            >
+                                {categorias.map((cat: any) => (
+                                    <option
+                                        key={cat.id}
+                                        value={cat.id}
+                                    >
+                                        {cat.nombre}
+                                    </option>
+                                ))}
+                            </select>
 
-                    <button
-                        type="button"
-                        onClick={() =>
-                            setMostrarEditar(false)
-                        }
-                        className="flex-1 bg-gray-200 py-3 rounded-xl"
-                    >
-                        Cancelar
-                    </button>
+                            <input
+                                className="w-full border p-3 rounded-xl"
+                                {...registerEdit("estado")}
+                            />
+
+                            <input
+                                className="w-full border p-3 rounded-xl"
+                                {...registerEdit("tipo")}
+                            />
+
+                            <div className="flex gap-3">
+                                <button
+                                    type="submit"
+                                    className="flex-1 bg-blue-600 text-white py-3 rounded-xl"
+                                >
+                                    Guardar
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        setMostrarEditar(false)
+                                    }
+                                    className="flex-1 bg-gray-200 py-3 rounded-xl"
+                                >
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
-            </form>
-
-        </div>
-    </div>
-)}
+            )}
 
         </Layout>
     );

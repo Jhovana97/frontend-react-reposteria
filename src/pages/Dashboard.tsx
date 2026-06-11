@@ -20,7 +20,7 @@ function Dashboard() {
                 setClientes(clientesRes.data);
 
                 const pedidosRes = await fetch(
-                    "http://localhost:3000/pedidos"
+                    "https://backend-nest-gestionar-pasteleria.onrender.com/pedidos"
                 );
 
                 const pedidosData =

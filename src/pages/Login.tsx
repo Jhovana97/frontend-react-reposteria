@@ -56,7 +56,7 @@ const Login = () => {
                 response.data.access_token
             );
 
-            // 🔥 LOG EXITOSO
+            //  LOG EXITOSO
             await saveLog(data.email, "EXITOSO", "INGRESO");
 
             console.log("Login exitoso");
@@ -67,7 +67,7 @@ const Login = () => {
         } catch (error) {
             console.error("Error al iniciar sesión:", error);
 
-            // 🔥 LOG FALLIDO
+            //  LOG FALLIDO
             await saveLog(data.email, "FALLIDO", "INGRESO");
         }
     };

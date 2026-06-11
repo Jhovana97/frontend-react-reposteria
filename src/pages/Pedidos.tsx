@@ -5,6 +5,7 @@ import { getClientes } from "../api/clientes.api";
 import { getProductos } from "../api/productos.api";
 //sirve para contar el total de productos en el pedido, para mostrarlo en el boton de nuevo pedido y en el encabezado del dashboard
 import { useMemo } from "react";
+import { getPedidos } from "../api/pedidos.api";
 
 
 type PedidoForm = {
@@ -32,16 +33,12 @@ function Pedidos() {
     useEffect(() => {
     async function cargarDatos() {
         try {
-            const pedidosRes = await fetch(
-                "http://localhost:3000/pedidos"
-            );
+            const pedidosRes = await getPedidos();
 
-            const pedidosData =
-                await pedidosRes.json();
 
-            console.log(JSON.stringify(pedidosData, null, 2));
+            console.log(JSON.stringify(pedidosRes.data, null, 2));
 
-            setPedidos(pedidosData);
+            setPedidos(pedidosRes.data);
 
             const clientesRes =
                 await getClientes();
@@ -147,7 +144,7 @@ const onSubmit = async (data: any) => {
             total: total
         };
 
-        const res = await fetch("http://localhost:3000/pedidos", {
+        const res = await fetch("https://backend-nest-gestionar-pasteleria.onrender.com/pedidos", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -178,7 +175,7 @@ const marcarComoListo = async (id: number) => {
     try {
 
         const res = await fetch(
-            `http://localhost:3000/pedidos/${id}`,
+            `https://backend-nest-gestionar-pasteleria.onrender.com/pedidos/${id}`,
             {
                 method: "PATCH",
                 headers: {
@@ -391,7 +388,7 @@ const marcarComoListo = async (id: number) => {
                                         className="px-6 bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-2xl transition-all"
                                         onClick={() =>
                                             window.open(
-                                                `http://localhost:3000/pedidos/${p.id}/pdf`
+                                                `https://backend-nest-gestionar-pasteleria.onrender.com/pedidos/${p.id}/pdf`
                                             )
                                         }
                                     >
