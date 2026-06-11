@@ -3,24 +3,29 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
     return (
         <nav className="bg-pink-300 text-white px-6 py-4 flex justify-between items-center shadow-md">
-            <img 
-                src="https://scontent.flpb1-1.fna.fbcdn.net/v/t39.30808-6/488648712_1211373790851270_6031118923942219852_n.jpg?stp=dst-jpg_p526x296_tt6&_nc_cat=102&ccb=1-7&_nc_sid=1d70fc&_nc_ohc=YtVLfC9U_pgQ7kNvwHgnpkN&_nc_oc=Adov2ovqmClFZYDr-5SU2cuidGL928pc4pvS-I3eqJz85BQBO_SNIIL5EU__LT9TkXQ0MldtO41DG6mxD_MgzZf6&_nc_zt=23&_nc_ht=scontent.flpb1-1.fna&_nc_gid=5ik8q3Yu181fSTYpuATjyg&_nc_ss=7a389&oh=00_Af12WvT_MaJAlDI7YFnaCrRMp0DeOlFhHMgdVp1c_-NpiQ&oe=69E2534D" 
-                alt="Dulce Eventos" 
-                className="h-18 w-16 rounded-full object-cover"
-            />
+            {/* Logo más grande pero contenido en el nav */}
+            <div className="flex items-center">
+                <div className="h-20 w-20 rounded-full overflow-hidden border-2 border-white shadow-lg">
+                    <img
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRDopBnIcSH3i4CKVKVqVTW7rGk9TW-L5ioEQ&s"
+                        alt="Dulce Eventos"
+                        className="w-full h-full object-cover scale-150"
+                    />
+                </div>
+            </div>
 
             <ul className="flex gap-6">
                 <li>
-                    <Link to="/dashboard">Dashboard</Link>
+                    <Link to="/dashboard" className="font-bold hover:text-pink-100 transition-colors">Dashboard</Link>
                 </li>
                 <li>
-                    <Link to="/productos">Productos</Link>
+                    <Link to="/productos" className="font-bold hover:text-pink-100 transition-colors">Productos</Link>
                 </li>
                 <li>
-                    <Link to="/pedidos">Pedidos</Link>
+                    <Link to="/pedidos" className="font-bold hover:text-pink-100 transition-colors">Pedidos</Link>
                 </li>
                 <li>
-                    <Link to="/clientes">Clientes</Link>
+                    <Link to="/clientes" className="font-bold hover:text-pink-100 transition-colors">Clientes</Link>
                 </li>
             </ul>
 
@@ -29,7 +34,7 @@ const Navbar = () => {
                     localStorage.removeItem("token");
                     window.location.href = "/";
                 }}
-                className="bg-white text-pink-500 px-3 py-1 rounded"
+                className="bg-white text-pink-500 px-4 py-2 rounded-lg font-bold hover:bg-pink-50 transition-all active:scale-95"
             >
                 Logout
             </button>
